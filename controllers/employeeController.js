@@ -135,6 +135,19 @@ router.get('/delete/:id',isAuthenticated,(req,res) => {
     });
 });
 
+// Pratik below
+router.get('/workdetails/:id',isAuthenticated,(req,res) => {
+    Employee.findById(req.params.id,(err, doc) =>{
+        if(!err){
+            res.render('/employee/workdetails', {
+                viewTitle: "Updat Employee",
+                employee: doc
+            });
+        }
+        else {console.log('Error in employee delete:' + err);}
+    });
+});
+
 module.exports = router;
 
 

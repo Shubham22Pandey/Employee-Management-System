@@ -18,6 +18,12 @@ var employeeSchema = new mongoose.Schema({
     },
     city: {
         type:String
+    },
+    salary: {
+        type: Number
+    },
+    work: {
+        type: String
     }
 });
 //custom validation for email

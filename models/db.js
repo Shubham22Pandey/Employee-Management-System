@@ -7,3 +7,4 @@ mongoose.connect('mongodb://localhost:27017/EmployeeDB',{ useNewUrlParser: true}
 
 require('./employee.model');
 require('./user');
+require('./employeeSalary');

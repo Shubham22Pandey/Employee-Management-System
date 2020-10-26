@@ -2,6 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
+const employee = mongoose.model('Employee')
+const EmployeeWithSalary = mongoose.model('employeeWithSalary');
 
 
 //
@@ -19,6 +21,23 @@ router.get('/profile',isAuthenticated,(req,res) => {
   });
 });
 //
+
+// Pratik
+router.get('/employeeentry',isAuthenticated,(req,res) => {
+  employee.find((err, docs) => {
+      if(!err){
+          res.render("employeeentry",{
+              name: req.user.email,
+              id: req.user._id
+          });
+      }
+      else{
+          console.log('Error in retrieving employee list :' + err);
+      }
+  });
+});
+
+// Pratik
 
 
 
@@ -63,8 +82,31 @@ router.post('/signin', passport.authenticate('local-signin', {
   failureFlash: true
 }));
 
+// Pratik
+
+router.get('/employeesignin', (req, res, next) => {
+  if(req.isAuthenticated()) {
+    console.log('here in isAuthenticatedif');
+    res.render('employeeentry');
+  }
+  else{
+    console.log('here in isAuthenticatedelse');
+    res.render('employeesignin');
+  }
+});
+
+router.post('/employeesignin', passport.authenticate('local-signin', {
+  successRedirect: '/employeeentry',
+  failureRedirect: '/employeesignin',
+  failureFlash: true
+})); 
 
 
+
+router.get('/employeeentry',isAuthenticated, (req, res, next) => {
+  res.render('employeeentry');
+});
+//PRatik
 
 router.get('/profile',isAuthenticated, (req, res, next) => {
   res.render('profile');

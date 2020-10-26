@@ -1,0 +1,47 @@
+{{!-- <h2>Hello in employee entry</h2> --}}
+<center><h3 style="font: italic bold 36px/60px Georgia, serif;"><i class="fa fa-briefcase"></i> Work details</h3></center>
+
+<nav  class="navbar navbar-expand-md navbar-dark bg-dark" style="background-image: linear-gradient(to right, red , yellow);margin-bottom: 15px; border-radius: 25px;">
+<div class="container">
+  <img src="/images/logo.PNG" style="width: 400px; height: auto; margin-top: auto;margin-bottom: auto; margin-left: auto; margin-right: auto;"></img>
+  
+{{!-- <a href="/profile">Profile <i class="fa fa-home"></i></a>
+  <a href="/employee">Employee <i class="fa fa-database"></i></a>
+  <a href="/logout">Logout <i class="fa fa-sign-out"></i></a> --}}
+
+</div>
+</nav>
+<div class="container">
+  <h2 style="font: italic bold 24px/90px Georgia, serif;">
+    <center>{{viewTitle}} 
+</h2>
+</center>
+<form action="/employee " method="POST" autocomplete="off"
+    style=" background-image: linear-gradient(to bottom, white , rgb(221, 221, 221)); border-radius:25px; padding:15px">
+    <input type="hidden" name="_id" value="{{employee._id}}">
+    
+    <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-control" name="fullName" placeholder="{{Date}}" value="{{employee}}">
+        <div class="text-danger">
+            {{employee.fullNameError}}</div>
+    </div>
+    <div class="form-group">
+        <label>Work performed</label>
+        <input type="text" class="form-control" name="email" placeholder="work done" value="{{employee}}">
+        <div class="text-danger">
+            {{employee}}</div>
+    </div>
+
+
+    <div class="form-group">
+        <center><button type="submit" class="btn btn-info"
+            style=" background-image: linear-gradient(to left, rgb(0, 162, 255) ,blue); border-radius: 25px;padding: 14px 25px;"><i
+                class="fa fa-database"></i> Submit</button></center>
+        {{!-- <a class="btn btn-secondary" href="/employee/list"><i class="fa fa-list-alt"></i> View All</a> --}}
+    </div>
+</form>
+</div>
+
+
+{{!-- <h1 style="font: italic bold 36px/60px Georgia, serif;"><center>Employee Management System</center></h1> --}}
