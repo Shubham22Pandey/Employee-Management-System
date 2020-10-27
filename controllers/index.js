@@ -103,9 +103,9 @@ router.post('/employeesignin', passport.authenticate('local-signin', {
 
 
 
-router.get('/employeeentry',isAuthenticated, (req, res, next) => {
-  res.render('employeeentry');
-});
+// router.get('/employeeentry',isAuthenticated, (req, res, next) => {
+//   res.render('employeeentry');
+// });
 //PRatik
 
 router.get('/profile',isAuthenticated, (req, res, next) => {
@@ -120,6 +120,14 @@ router.get('/employee/addOrEdit',isAuthenticated, (req, res, next) => {
 router.get('/employee/list',isAuthenticated, (req, res, next) => {
   res.render('/employee/list');
 });
+
+// PRATIK
+
+router.get('/workdetails',isAuthenticated, (req, res, next) => {
+  res.render('workdetails');
+});
+
+// PRATIK
 
 router.get('/logout', (req, res, next) => {
   req.logout();

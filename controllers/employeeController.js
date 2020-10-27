@@ -21,6 +21,23 @@ router.post('/',isAuthenticated,(req,res) => {
         }
 });
 
+router.post('/work', isAuthenticated, (req, res) => {
+    updateWorkRecord(req, res);
+})
+
+function updateWorkRecord(req, res) {
+    var date = req.body.date;
+    var task = req.body.task;
+    console.log(req.body);
+    Employee.update({_id: req.body._id}, {$set: {"work.date": date, "work.task": task}},
+     {new: true}, (err, doc) => {
+        console.log(err);
+        console.log(doc);
+        if(!err)
+            res.render('employee/list');  
+    });
+}
+
 function insertRecord(req,res){
     var employee = new Employee();
     employee.idno = req.user.email;
@@ -139,15 +156,15 @@ router.get('/delete/:id',isAuthenticated,(req,res) => {
 router.get('/workdetails/:id',isAuthenticated,(req,res) => {
     Employee.findById(req.params.id,(err, doc) =>{
         if(!err){
-            res.render('/employee/workdetails', {
-                viewTitle: "Updat Employee",
+            res.render('workdetails', {
+                viewTitle: "Work details",
                 employee: doc
             });
         }
         else {console.log('Error in employee delete:' + err);}
     });
 });
-
+// Pratik
 module.exports = router;
 
 

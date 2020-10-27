@@ -1,4 +1,14 @@
 const mongoose = require('mongoose');
+
+var workSchema = new mongoose.Schema({
+    date: {
+        type: {Date: String}
+    },
+    // task: {
+    //     type: String
+    // }
+});
+
 var employeeSchema = new mongoose.Schema({
     idno: {
         type:String
@@ -22,9 +32,7 @@ var employeeSchema = new mongoose.Schema({
     salary: {
         type: Number
     },
-    work: {
-        type: String
-    }
+    work: [{date: Date, task: String}]
 });
 //custom validation for email
 employeeSchema.path('email').validate((val) => {
