@@ -70,27 +70,17 @@ router.post('/signin', passport.authenticate('local-signin', {
 router.get('/profile',isAuthenticated, (req, res, next) => {
   res.render('profile');
 });
-router.get('/employee',isAuthenticated, (req, res, next) => {
-  res.render('employee');
+router.get('/attendance',isAuthenticated, (req, res, next) => {
+  res.render('attendance');
 });
-router.get('/employee/addOrEdit',isAuthenticated, (req, res, next) => {
-  res.render('/employee/addOrEdit');
+router.get('/attendance/addOrEditattendance',isAuthenticated, (req, res, next) => {
+  res.render('/attendance/addOrEditattendance');
 });
-router.get('/employee/list',isAuthenticated, (req, res, next) => {
-  res.render('/employee/list');
+router.get('/attendance/listattendance',isAuthenticated, (req, res, next) => {
+  res.render('/attendance/listattendance');
 });
 
-/*
-router.get('/salary',isAuthenticated, (req, res, next) => {
-  res.render('salary');
-});
-router.get('/salary/addOrEditsalary',isAuthenticated, (req, res, next) => {
-  res.render('/salary/addOrEditsalary');
-});
-router.get('/salary/list',isAuthenticated, (req, res, next) => {
-  res.render('/salary/list');
-});
-*/
+
 
 router.get('/logout', (req, res, next) => {
   req.logout();

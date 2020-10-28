@@ -11,7 +11,12 @@ const session = require('express-session');
 const passport = require('passport');
 const morgan = require('morgan');
 
+
 const employeeController = require('./controllers/employeeController');
+
+const salaryController = require('./controllers/salaryController');
+
+const attendanceController = require('./controllers/attendanceController');
 
 
 const app = express();
@@ -57,6 +62,13 @@ app.use((req, res, next) => {
 
 app.use('/employee', employeeController);
 app.use('/', require('./controllers/index'));
+
+app.use('/salary', salaryController);
+app.use('/', require('./controllers/salaryindex'));
+
+app.use('/attendance', attendanceController);
+app.use('/', require('./controllers/attendanceindex'));
+
 app.listen(3000, ()=>{
   console.log('Express server started at port: 3000');
 });

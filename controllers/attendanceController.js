@@ -1,17 +1,17 @@
 const express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-const Employee = mongoose.model('Employee');
+const Attendance = mongoose.model('Attendance');
 const passport = require('passport');
 const User = mongoose.model('user');
 
 
 router.get('/',isAuthenticated, (req,res) => {
-    res.render("employee/addOrEdit",{
-        viewTitle : "Insert Employee"
+    res.render("attendance/addOrEditattendance",{
+        viewTitle : "Insert Attendance"
 
     });
-});
+});          
 
 router.post('/',isAuthenticated,(req,res) => {
     if(req.body._id == '')
@@ -23,22 +23,22 @@ router.post('/',isAuthenticated,(req,res) => {
 });
 
 function insertRecord(req,res){
-    var employee = new Employee();
-    employee.idno = req.user.email;
-    employee.createid = req.user.email;
-    employee.fullName = req.body.fullName;
-    employee.email = req.body.email;
-    employee.mobile = req.body.mobile;
-    employee.city = req.body.city;
-    employee.save((err, doc) => {
+    var attendance = new Attendance();
+    attendance.idno = req.user.email;
+    attendance.createid = req.user.email;
+    attendance.fullName = req.body.fullName;
+    attendance.email = req.body.email;
+    attendance.date = req.body.date;
+    attendance.attendance = req.body.attendance;
+    attendance.save((err, doc) => {
         if(!err)
-            res.redirect('employee/list');
+            res.redirect('attendance/listattendance');
         else{
             if(err.name == 'ValidationError'){
                 handleValidationError(err,req.body);
-                res.render("employee/addOrEdit",{
-                    viewTitle : "Insert Employee",
-                    employee: req.body
+                res.render("attendance/addOrEditattendance",{
+                    viewTitle : "Insert attendance",
+                    attendance: req.body
             });
             }
             else
@@ -49,14 +49,14 @@ function insertRecord(req,res){
 }
 
 function updateRecord(req,res){
-    Employee.findOneAndUpdate({_id:req.body._id}, req.body, { new: true},(err, doc ) => {
-        if(!err){res.redirect('employee/list');}
+    Attendance.findOneAndUpdate({_id:req.body._id}, req.body, { new: true},(err, doc ) => {
+        if(!err){res.redirect('attendance/listattendance');}
         else{
             if(err.name == 'ValidationError'){
                 handleValidationError(err, req.body);
-                res.render("employee/addOrEdit",{
-                    viewTitle: 'update Employee',
-                    employee: req.body,
+                res.render("attendance/addOrEditattendance",{
+                    viewTitle: 'update Attendance',
+                    attendance: req.body,
 
                 });
             }
@@ -65,7 +65,7 @@ function updateRecord(req,res){
         }
     });
 
-    Employee.findOneAndUpdate({_id:req.body._id}, {$set:{idno:req.user.email}}, {new: true}, (err, doc) => {
+    Attendance.findOneAndUpdate({_id:req.body._id}, {$set:{idno:req.user.email}}, {new: true}, (err, doc) => {
         if (err) {
             console.log("Something wrong when updating data!");
         }
@@ -74,17 +74,17 @@ function updateRecord(req,res){
     });
 }
 
-router.get('/list',isAuthenticated,(req,res) => {
-    Employee.find((err, docs) => {
+router.get('/listattendance',isAuthenticated,(req,res) => {
+    Attendance.find((err, docs) => {
         if(!err){
-            res.render("employee/list",{
+            res.render("attendance/listattendance",{
                 
-                list: docs
+                listattendance: docs
 
             });
         }
         else{
-            console.log('Error in retrieving employee list :' + err);
+            console.log('Error in retrieving attendance list :' + err);
         }
     });
 });
@@ -118,25 +118,26 @@ function isAuthenticated(req, res, next) {
 
 
 router.get('/:id',isAuthenticated, (req,res) => {
-    Employee.findById(req.params.id, (err, doc) =>{
+    Attendance.findById(req.params.id, (err, doc) =>{
         if(!err){
-            res.render("employee/addOrEdit",{
-                viewTitle: "Update Employee",
-                employee: doc
+            res.render("attendance/addOrEditattendance",{
+                viewTitle: "Update Attendance",
+                attendance: doc
             })
         }
     });
 });
 router.get('/delete/:id',isAuthenticated,(req,res) => {
-    Employee.findByIdAndRemove(req.params.id,(err, doc) =>{
+    Attendance.findByIdAndRemove(req.params.id,(err, doc) =>{
         if(!err){
-            res.redirect('/employee/list');
+            res.redirect('/attendance/listattendance');
         }
-        else {console.log('Error in employee delete:' + err);}
+        else {console.log('Error in attendance delete:' + err);}
     });
 });
 
 module.exports = router;
+
 
 
 

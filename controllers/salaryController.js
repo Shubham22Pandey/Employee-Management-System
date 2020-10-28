@@ -1,16 +1,16 @@
 const express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-const Employee = mongoose.model('Employee');
+const Salary = mongoose.model('Salary');     
 const passport = require('passport');
-const User = mongoose.model('user');
+const User = mongoose.model('user'); 
 
 
 router.get('/',isAuthenticated, (req,res) => {
-    res.render("employee/addOrEdit",{
-        viewTitle : "Insert Employee"
-
-    });
+    res.render("salary/addOrEditsalary",{
+        viewTitle : "Insert Salary"
+        });
+    
 });
 
 router.post('/',isAuthenticated,(req,res) => {
@@ -23,22 +23,24 @@ router.post('/',isAuthenticated,(req,res) => {
 });
 
 function insertRecord(req,res){
-    var employee = new Employee();
-    employee.idno = req.user.email;
-    employee.createid = req.user.email;
-    employee.fullName = req.body.fullName;
-    employee.email = req.body.email;
-    employee.mobile = req.body.mobile;
-    employee.city = req.body.city;
-    employee.save((err, doc) => {
+    var salary = new Salary();
+    salary.idno = req.user.email;
+    salary.createid = req.user.email;
+    salary.fullName = req.body.fullName;
+    salary.email = req.body.email;
+    
+    
+    salary.month = req.body.month;
+    salary.salary = req.body.salary;
+    salary.save((err, doc) => {
         if(!err)
-            res.redirect('employee/list');
+            res.redirect('salary/listsalary');
         else{
             if(err.name == 'ValidationError'){
                 handleValidationError(err,req.body);
-                res.render("employee/addOrEdit",{
-                    viewTitle : "Insert Employee",
-                    employee: req.body
+                res.render("salary/addOrsalary",{
+                    viewTitle : "Insert Salary",
+                    salary: req.body
             });
             }
             else
@@ -49,14 +51,14 @@ function insertRecord(req,res){
 }
 
 function updateRecord(req,res){
-    Employee.findOneAndUpdate({_id:req.body._id}, req.body, { new: true},(err, doc ) => {
-        if(!err){res.redirect('employee/list');}
+    Salary.findOneAndUpdate({_id:req.body._id}, req.body, { new: true},(err, doc ) => {
+        if(!err){res.redirect('salary/listsalary');}
         else{
             if(err.name == 'ValidationError'){
                 handleValidationError(err, req.body);
-                res.render("employee/addOrEdit",{
-                    viewTitle: 'update Employee',
-                    employee: req.body,
+                res.render("salary/addOrEditsalary",{
+                    viewTitle: 'update Salary',
+                    salary: req.body,
 
                 });
             }
@@ -65,7 +67,7 @@ function updateRecord(req,res){
         }
     });
 
-    Employee.findOneAndUpdate({_id:req.body._id}, {$set:{idno:req.user.email}}, {new: true}, (err, doc) => {
+    Salary.findOneAndUpdate({_id:req.body._id}, {$set:{idno:req.user.email}}, {new: true}, (err, doc) => {
         if (err) {
             console.log("Something wrong when updating data!");
         }
@@ -74,17 +76,17 @@ function updateRecord(req,res){
     });
 }
 
-router.get('/list',isAuthenticated,(req,res) => {
-    Employee.find((err, docs) => {
+router.get('/listsalary',isAuthenticated,(req,res) => {
+    Salary.find((err, docs) => {
         if(!err){
-            res.render("employee/list",{
+            res.render("salary/listsalary",{
                 
-                list: docs
+                listsalary: docs
 
             });
         }
         else{
-            console.log('Error in retrieving employee list :' + err);
+            console.log('Error in retrieving salary list :' + err);
         }
     });
 });
@@ -118,25 +120,26 @@ function isAuthenticated(req, res, next) {
 
 
 router.get('/:id',isAuthenticated, (req,res) => {
-    Employee.findById(req.params.id, (err, doc) =>{
+    Salary.findById(req.params.id, (err, doc) =>{
         if(!err){
-            res.render("employee/addOrEdit",{
-                viewTitle: "Update Employee",
-                employee: doc
+            res.render("salary/addOrEditsalary",{
+                viewTitle: "Update Salary",
+                salary: doc
             })
         }
     });
 });
 router.get('/delete/:id',isAuthenticated,(req,res) => {
-    Employee.findByIdAndRemove(req.params.id,(err, doc) =>{
+    Salary.findByIdAndRemove(req.params.id,(err, doc) =>{
         if(!err){
-            res.redirect('/employee/list');
+            res.redirect('/salary/listsalary');
         }
-        else {console.log('Error in employee delete:' + err);}
+        else {console.log('Error in salary delete:' + err);}
     });
 });
 
 module.exports = router;
+
 
 
 
