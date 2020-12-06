@@ -2,15 +2,22 @@ const express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const Attendance = mongoose.model('Attendance');
+const Employee = mongoose.model('Employee');
 const passport = require('passport');
 const User = mongoose.model('user');
 
 
 router.get('/',isAuthenticated, (req,res) => {
-    res.render("attendance/addOrEditattendance",{
-        viewTitle : "Insert Attendance"
-
+    console.log(Employee.find({}, {"fullName": 1, "_id": 0}));
+    Employee.find({}, {"fullName": 1, "_id": 0}, (err, doc)=> {
+        if(!err){
+            res.render("attendance/addOrEditattendance",{
+                viewTitle : "Insert Attendance",
+                attendance: doc
+            })
+        }
     });
+    // ({}, {"fullname":1});
 });          
 
 router.post('/',isAuthenticated,(req,res) => {
@@ -36,6 +43,8 @@ function insertRecord(req,res){
         else{
             if(err.name == 'ValidationError'){
                 handleValidationError(err,req.body);
+                
+                // console.log(temp);
                 res.render("attendance/addOrEditattendance",{
                     viewTitle : "Insert attendance",
                     attendance: req.body
